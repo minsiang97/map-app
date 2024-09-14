@@ -1,0 +1,10 @@
+.autocomplete-container {
+  margin-top: 10px;
+  width: 400px;
+}
+
+@media screen and (max-width: 576px) {
+  .autocomplete-container {
+    width: 100%;
+  }
+}

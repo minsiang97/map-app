@@ -10,6 +10,7 @@ import './index.css';
 import { MapProps, Markers } from '@components/Map/types';
 import AdvancedMarkerWithRef from '@components/AdvanceMarker';
 import CustomMapControl from '@components/MapControl';
+import PlaceAutocomplete from '@components/PlaceAutoComplete';
 
 const Map: React.FC<MapProps> = ({
   markers,
@@ -21,6 +22,7 @@ const Map: React.FC<MapProps> = ({
   onCenterChanged,
   center,
   handleDefaultCenter,
+  setSelectedPlace,
 }) => {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [selectedMarker, setSelectedMarker] =
@@ -36,7 +38,6 @@ const Map: React.FC<MapProps> = ({
   const onMouseLeave = useCallback(() => setHoverId(null), []);
 
   const Z_INDEX_HOVER = (markers?.length ?? 1) + 1;
-  const MAP_ID = process.env.REACT_APP_MAP_ID ?? 'test1234';
 
   return (
     <APIProvider apiKey={apiKey}>
@@ -44,7 +45,7 @@ const Map: React.FC<MapProps> = ({
         className="map"
         center={center}
         zoom={zoom}
-        mapId={MAP_ID}
+        // mapId={MAP_ID}
         gestureHandling={'greedy'}
         disableDefaultUI={true}
         clickableIcons={false}
@@ -60,9 +61,8 @@ const Map: React.FC<MapProps> = ({
               }
 
               return (
-                <>
+                <div key={marker.driver_id}>
                   <AdvancedMarkerWithRef
-                    key={marker.driver_id}
                     position={{
                       lat: marker.location.latitude,
                       lng: marker.location.longitude,
@@ -79,7 +79,7 @@ const Map: React.FC<MapProps> = ({
                       <h3>Bearing: {marker.location.bearing}</h3>
                     </InfoWindow>
                   ) : null}
-                </>
+                </div>
               );
             })}
           </>
@@ -90,6 +90,11 @@ const Map: React.FC<MapProps> = ({
             handleZoomOut={handleZoomOut}
             handleDefaultCenter={handleDefaultCenter}
           />
+        </MapControl>
+        <MapControl position={ControlPosition.TOP_CENTER}>
+          <div className="autocomplete-control">
+            <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
+          </div>
         </MapControl>
       </ReactMap>
     </APIProvider>

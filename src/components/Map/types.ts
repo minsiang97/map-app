@@ -7,6 +7,7 @@ export interface MapProps extends CustomMapControlProps {
   onZoomChanged: (value: number) => void;
   onCenterChanged: (value: Coordinates) => void;
   center: Coordinates;
+  setSelectedPlace: (value: google.maps.places.PlaceResult | null) => void;
 }
 
 export interface Coordinates {

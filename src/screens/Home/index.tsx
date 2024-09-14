@@ -17,6 +17,11 @@ const Home: React.FC = () => {
   const [markers, setMarkers] = useState<Markers[]>([]);
   const [zoom, setZoom] = useState<number>(15);
   const [center, setCenter] = useState<Coordinates>(defaultCoordinates);
+  // Center to display drivers around
+  const [selectedCenter, setSelectedCenter] =
+    useState<Coordinates>(defaultCoordinates);
+  const [selectedPlace, setSelectedPlace] =
+    useState<google.maps.places.PlaceResult | null>(null);
 
   const onChange: InputNumberProps['onChange'] = (newValue) => {
     setDrivers(newValue as number);
@@ -29,16 +34,22 @@ const Home: React.FC = () => {
   const getDrivers = async () => {
     try {
       const params = {
-        latitude: defaultCoordinates.lat,
-        longitude: defaultCoordinates.lng,
+        latitude: selectedCenter.lat,
+        longitude: selectedCenter.lng,
         count: drivers,
       };
       const response = await axios.get(`${CORS_URL}/${BASE_URL}/drivers`, {
         params,
       });
+      console.log(response);
       if (response.status === 200) {
         const data = response.data;
-        setMarkers(data.drivers);
+        if (data.drivers && data.drivers.length > 0) {
+          setMarkers(data.drivers);
+        } else {
+          setMarkers([]);
+          toast.error('No drivers available nearby');
+        }
       }
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -59,7 +70,16 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     debouncedGetDrivers();
-  }, [drivers]);
+  }, [drivers, selectedCenter]);
+
+  useEffect(() => {
+    if (selectedPlace && selectedPlace.geometry?.location) {
+      const lat = selectedPlace.geometry?.location?.lat();
+      const lng = selectedPlace.geometry?.location?.lng();
+      onCenterChanged({ lat, lng });
+      onSelectedCenterChanged({ lat, lng });
+    }
+  }, [selectedPlace]);
 
   const handleZoomIn = () => {
     if (zoom < maxZoom) {
@@ -75,12 +95,15 @@ const Home: React.FC = () => {
   const onZoomChanged = (value: number) => setZoom(value);
 
   const onCenterChanged = (value: Coordinates) => setCenter(value);
+  const onSelectedCenterChanged = (value: Coordinates) =>
+    setSelectedCenter(value);
 
-  const handleDefaultCenter = () => setCenter(defaultCoordinates);
+  const handleDefaultCenter = () => {
+    setCenter(selectedCenter);
+  };
 
   return (
     <div className="container">
-      <h2>Welcome to my Map App</h2>
       <Row gutter={[16, 30]} justify={'center'}>
         <Col xs={24}>
           <Map
@@ -93,6 +116,7 @@ const Home: React.FC = () => {
             onCenterChanged={onCenterChanged}
             center={center}
             handleDefaultCenter={handleDefaultCenter}
+            setSelectedPlace={setSelectedPlace}
           />
         </Col>
         <Col xs={24} lg={12}>
