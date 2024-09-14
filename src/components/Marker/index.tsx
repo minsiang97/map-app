@@ -1,11 +1,11 @@
 import { MarkerProps, Marker, useMarkerRef } from '@vis.gl/react-google-maps';
 
-const AdvancedMarkerWithRef = (
+const MarkerWithRef = (
   props: MarkerProps & {
     onMouseEnter: (marker: google.maps.Marker) => void;
   },
 ) => {
-  const { onMouseEnter, ...advancedMarkerProps } = props;
+  const { onMouseEnter, ...markerProps } = props;
   const [markerRef, marker] = useMarkerRef();
 
   return (
@@ -16,9 +16,9 @@ const AdvancedMarkerWithRef = (
           onMouseEnter(marker);
         }
       }}
-      {...advancedMarkerProps}
+      {...markerProps}
     />
   );
 };
 
-export default AdvancedMarkerWithRef;
+export default MarkerWithRef;

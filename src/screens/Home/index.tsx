@@ -7,12 +7,17 @@ import { Coordinates, Markers } from '@components/Map/types';
 import { useDebounce } from '@hooks/useDebounce';
 import Map from '@components/Map';
 
+const maxZoom = 22;
+const minZoom = 0;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const CORS_URL = process.env.REACT_APP_CORS_URL;
+const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? '';
+const NODE_ENV = process.env.REACT_APP_NODE_ENV;
+
 const Home: React.FC = () => {
   const defaultCoordinates: Coordinates = useMemo(() => {
     return { lng: 127.11, lat: 37.394 };
   }, []);
-  const maxZoom = 22;
-  const minZoom = 0;
   const [drivers, setDrivers] = useState<number>(1);
   const [markers, setMarkers] = useState<Markers[]>([]);
   const [zoom, setZoom] = useState<number>(15);
@@ -37,10 +42,6 @@ const Home: React.FC = () => {
     }
   };
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const CORS_URL = process.env.REACT_APP_CORS_URL;
-  const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? '';
-
   const getDrivers = async () => {
     try {
       const params = {
@@ -48,10 +49,14 @@ const Home: React.FC = () => {
         longitude: selectedCenter.lng,
         count: drivers,
       };
-      const response = await axios.get(`${CORS_URL}/${BASE_URL}/drivers`, {
+      const url =
+        NODE_ENV !== 'local'
+          ? `${BASE_URL}/drivers`
+          : `${CORS_URL}/${BASE_URL}/drivers`;
+      const response = await axios.get(url, {
         params,
       });
-      console.log(response);
+
       if (response.status === 200) {
         const data = response.data;
         if (data.drivers && data.drivers.length > 0) {

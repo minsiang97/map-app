@@ -8,7 +8,7 @@ import {
 import React, { useCallback, useState } from 'react';
 import './index.css';
 import { MapProps, Markers } from '@components/Map/types';
-import AdvancedMarkerWithRef from '@components/AdvanceMarker';
+import MarkerWithRef from '@components/Marker';
 import PlaceAutocomplete from '@components/PlaceAutoComplete';
 import { Flex } from 'antd';
 import Center from '@components/Center';
@@ -52,7 +52,6 @@ const Map: React.FC<MapProps> = ({
         className="map"
         center={center}
         zoom={zoom}
-        // mapId={MAP_ID}
         gestureHandling={'greedy'}
         disableDefaultUI={true}
         clickableIcons={false}
@@ -69,7 +68,7 @@ const Map: React.FC<MapProps> = ({
 
               return (
                 <div key={marker.driver_id}>
-                  <AdvancedMarkerWithRef
+                  <MarkerWithRef
                     position={{
                       lat: marker.location.latitude,
                       lng: marker.location.longitude,
@@ -79,7 +78,7 @@ const Map: React.FC<MapProps> = ({
                       onMouseEnter(marker.driver_id, markerRef)
                     }
                     onMouseOut={onMouseLeave}
-                  ></AdvancedMarkerWithRef>
+                  />
                   {hoverId === marker.driver_id ? (
                     <InfoWindow anchor={selectedMarker}>
                       <h2>Driver: {marker.driver_id}</h2>
