@@ -3,8 +3,9 @@ import Map from '../../components/Map';
 import { useEffect, useMemo, useState } from 'react';
 import { Coordinates, Markers } from '../../components/Map/types';
 import './index.css';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useDebounce } from '../../hooks/useDebounce';
+import { toast } from 'react-toastify';
 
 const Home: React.FC = () => {
   const defaultCoordinates: Coordinates = useMemo(() => {
@@ -35,13 +36,22 @@ const Home: React.FC = () => {
       const response = await axios.get(`${CORS_URL}/${BASE_URL}/drivers`, {
         params,
       });
-      console.log(response);
       if (response.status === 200) {
         const data = response.data;
         setMarkers(data.drivers);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        if (error?.response?.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error(error.message);
+        }
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('Internal server error, please try again');
+      }
     }
   };
 
@@ -69,7 +79,7 @@ const Home: React.FC = () => {
   const handleDefaultCenter = () => setCenter(defaultCoordinates);
 
   return (
-    <div>
+    <div className="container">
       <h2>Welcome to my Map App</h2>
       <Row gutter={[16, 30]} justify={'center'}>
         <Col xs={24}>

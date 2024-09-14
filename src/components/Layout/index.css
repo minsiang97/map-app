@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.header-icon {
+  font-size: 20px;
+  color: white;
+}
+
+.header-title {
+  color: white;
+  margin-left: 10px;
+}
+
+.content {
+  padding: 20px;
+}
+
+@media screen and (max-width: 576px) {
+  /* For below sm */
+  .header {
+    justify-content: center;
+  }
+}
