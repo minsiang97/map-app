@@ -1,5 +1,5 @@
 import { Col, InputNumberProps, Row } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import './index.css';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const getDrivers = async () => {
+  const getDrivers = useCallback(async () => {
     try {
       const params = {
         latitude: selectedCenter.lat,
@@ -70,6 +70,8 @@ const Home: React.FC = () => {
       if (error instanceof AxiosError) {
         if (error?.response?.data.message) {
           toast.error(error.response.data.message);
+        } else if (error?.response?.statusText) {
+          toast.error(error?.response?.statusText);
         } else {
           toast.error(error.message);
         }
@@ -79,13 +81,13 @@ const Home: React.FC = () => {
         toast.error('Internal server error, please try again');
       }
     }
-  };
+  }, [drivers, selectedCenter.lat, selectedCenter.lng]);
 
   const debouncedGetDrivers = useDebounce(getDrivers, 300);
 
   useEffect(() => {
     debouncedGetDrivers();
-  }, [drivers, selectedCenter]);
+  }, [drivers, selectedCenter, debouncedGetDrivers]);
 
   useEffect(() => {
     if (selectedPlace && selectedPlace.geometry?.location) {
