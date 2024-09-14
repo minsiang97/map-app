@@ -1,4 +1,4 @@
-import { CustomMapControlProps } from '../MapControl/types';
+import { CustomMapControlProps } from '@components/MapControl/types';
 
 export interface MapProps extends CustomMapControlProps {
   markers?: Markers[];

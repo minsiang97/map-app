@@ -1,8 +1,8 @@
+import Layout from '@components/Layout';
 import './App.css';
-import Layout from './components/Layout';
-import Home from './screens/Home';
 import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Home from '@screens/Home';
 
 function App() {
   return (

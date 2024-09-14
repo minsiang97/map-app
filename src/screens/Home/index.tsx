@@ -1,11 +1,11 @@
 import { Col, InputNumberProps, Row, Slider } from 'antd';
-import Map from '../../components/Map';
 import { useEffect, useMemo, useState } from 'react';
-import { Coordinates, Markers } from '../../components/Map/types';
 import './index.css';
 import axios, { AxiosError } from 'axios';
-import { useDebounce } from '../../hooks/useDebounce';
 import { toast } from 'react-toastify';
+import { Coordinates, Markers } from '@components/Map/types';
+import { useDebounce } from '@hooks/useDebounce';
+import Map from '@components/Map';
 
 const Home: React.FC = () => {
   const defaultCoordinates: Coordinates = useMemo(() => {
@@ -24,7 +24,7 @@ const Home: React.FC = () => {
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const CORS_URL = process.env.REACT_APP_CORS_URL;
-  const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+  const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? '';
 
   const getDrivers = async () => {
     try {
@@ -85,7 +85,7 @@ const Home: React.FC = () => {
         <Col xs={24}>
           <Map
             markers={markers}
-            apiKey={API_KEY!}
+            apiKey={API_KEY}
             zoom={zoom}
             handleZoomIn={handleZoomIn}
             handleZoomOut={handleZoomOut}

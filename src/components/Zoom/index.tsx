@@ -2,7 +2,7 @@ import { Button, Flex } from 'antd';
 import React from 'react';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import './index.css';
-import { ZoomProps } from './types';
+import { ZoomProps } from '@components/Zoom/types';
 
 const Zoom: React.FC<ZoomProps> = ({ handleZoomIn, handleZoomOut }) => {
   return (

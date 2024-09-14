@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import React from 'react';
 import { AimOutlined } from '@ant-design/icons';
 import './index.css';
-import { CenterProps } from './types';
+import { CenterProps } from '@components/Center/types';
 
 const Center: React.FC<CenterProps> = ({ handleDefaultCenter }) => {
   return (

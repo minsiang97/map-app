@@ -3,17 +3,13 @@ import {
   ControlPosition,
   InfoWindow,
   MapControl,
-  Marker,
-  MarkerRef,
-  Pin,
   Map as ReactMap,
 } from '@vis.gl/react-google-maps';
 import React, { useCallback, useState } from 'react';
-import { MapProps, Markers } from './types';
 import './index.css';
-import Zoom from '../Zoom';
-import CustomMapControl from '../MapControl';
-import AdvancedMarkerWithRef from '../AdvanceMarker';
+import { MapProps, Markers } from '@components/Map/types';
+import AdvancedMarkerWithRef from '@components/AdvanceMarker';
+import CustomMapControl from '@components/MapControl';
 
 const Map: React.FC<MapProps> = ({
   markers,
@@ -27,7 +23,6 @@ const Map: React.FC<MapProps> = ({
   handleDefaultCenter,
 }) => {
   const [hoverId, setHoverId] = useState<string | null>(null);
-  const [infoWindowShown, setInfoWindowShown] = useState(false);
   const [selectedMarker, setSelectedMarker] =
     useState<google.maps.Marker | null>(null);
 

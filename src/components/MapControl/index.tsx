@@ -1,8 +1,8 @@
 import { Flex } from 'antd';
 import React from 'react';
-import Center from '../Center';
-import Zoom from '../Zoom';
-import { CustomMapControlProps } from './types';
+import { CustomMapControlProps } from '@components/MapControl/types';
+import Zoom from '@components/Zoom';
+import Center from '@components/Center';
 
 const CustomMapControl: React.FC<CustomMapControlProps> = ({
   handleZoomIn,
