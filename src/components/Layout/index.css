@@ -14,7 +14,13 @@
 }
 
 .content {
-  padding: 20px;
+  /* padding: 20px 20px 0px 20px; */
+  background-color: white;
+}
+
+.ant-layout-footer {
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 @media screen and (max-width: 576px) {

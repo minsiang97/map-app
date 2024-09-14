@@ -1,6 +1,13 @@
-import { CustomMapControlProps } from '@components/MapControl/types';
+import { CenterProps } from '@components/Center/types';
+import { ResetProps } from '@components/Reset/types';
+import { SliderProps } from '@components/Slider/types';
+import { ZoomProps } from '@components/Zoom/types';
 
-export interface MapProps extends CustomMapControlProps {
+export interface MapProps
+  extends ZoomProps,
+    CenterProps,
+    ResetProps,
+    SliderProps {
   markers?: Markers[];
   apiKey: string;
   zoom: number;

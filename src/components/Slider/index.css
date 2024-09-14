@@ -1,0 +1,36 @@
+.slider-container {
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 10px;
+  padding: 10px 15px 10px 15px;
+  border-radius: 6px;
+}
+
+.slider {
+  width: 100%;
+}
+
+.inputNumber {
+  width: 100%;
+}
+
+.count {
+  margin: 0;
+}
+
+:where(.css-dev-only-do-not-override-qnu6hi).ant-slider .ant-slider-rail {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+@media screen and (max-width: 576px) {
+  .slider-container {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .slider-container {
+    width: 80%;
+    margin: auto;
+  }
+}

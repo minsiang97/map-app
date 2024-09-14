@@ -1,4 +1,4 @@
-import { Col, InputNumberProps, Row, Slider } from 'antd';
+import { Col, InputNumberProps, Row } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import './index.css';
 import axios, { AxiosError } from 'axios';
@@ -24,7 +24,17 @@ const Home: React.FC = () => {
     useState<google.maps.places.PlaceResult | null>(null);
 
   const onChange: InputNumberProps['onChange'] = (newValue) => {
-    setDrivers(newValue as number);
+    if (typeof newValue !== 'number') {
+      setDrivers(1);
+    } else {
+      if (newValue < 1) {
+        setDrivers(1);
+      } else if (newValue > 50) {
+        setDrivers(50);
+      } else {
+        setDrivers(newValue as number);
+      }
+    }
   };
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -98,8 +108,11 @@ const Home: React.FC = () => {
   const onSelectedCenterChanged = (value: Coordinates) =>
     setSelectedCenter(value);
 
-  const handleDefaultCenter = () => {
-    setCenter(selectedCenter);
+  const handleDefaultCenter = () => setCenter(selectedCenter);
+
+  const handleResetCenter = () => {
+    setCenter(defaultCoordinates);
+    setSelectedCenter(defaultCoordinates);
   };
 
   return (
@@ -117,13 +130,10 @@ const Home: React.FC = () => {
             center={center}
             handleDefaultCenter={handleDefaultCenter}
             setSelectedPlace={setSelectedPlace}
+            handleResetCenter={handleResetCenter}
+            drivers={drivers}
+            onChange={onChange}
           />
-        </Col>
-        <Col xs={24} lg={12}>
-          <div className="slider-container">
-            <Slider defaultValue={1} onChange={onChange} min={1} max={50} />
-            <h3>Driver's count: {drivers}</h3>
-          </div>
         </Col>
       </Row>
     </div>

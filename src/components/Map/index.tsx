@@ -9,8 +9,12 @@ import React, { useCallback, useState } from 'react';
 import './index.css';
 import { MapProps, Markers } from '@components/Map/types';
 import AdvancedMarkerWithRef from '@components/AdvanceMarker';
-import CustomMapControl from '@components/MapControl';
 import PlaceAutocomplete from '@components/PlaceAutoComplete';
+import { Flex } from 'antd';
+import Center from '@components/Center';
+import Zoom from '@components/Zoom';
+import Reset from '@components/Reset';
+import Slider from '@components/Slider';
 
 const Map: React.FC<MapProps> = ({
   markers,
@@ -23,6 +27,9 @@ const Map: React.FC<MapProps> = ({
   center,
   handleDefaultCenter,
   setSelectedPlace,
+  handleResetCenter,
+  drivers,
+  onChange,
 }) => {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [selectedMarker, setSelectedMarker] =
@@ -85,16 +92,21 @@ const Map: React.FC<MapProps> = ({
           </>
         ) : null}
         <MapControl position={ControlPosition.RIGHT_BOTTOM}>
-          <CustomMapControl
-            handleZoomIn={handleZoomIn}
-            handleZoomOut={handleZoomOut}
-            handleDefaultCenter={handleDefaultCenter}
-          />
+          <Flex align="flex-start" vertical gap="large">
+            <Center handleDefaultCenter={handleDefaultCenter} />
+            <Zoom handleZoomIn={handleZoomIn} handleZoomOut={handleZoomOut} />
+          </Flex>
         </MapControl>
         <MapControl position={ControlPosition.TOP_CENTER}>
           <div className="autocomplete-control">
             <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
           </div>
+        </MapControl>
+        <MapControl position={ControlPosition.RIGHT_TOP}>
+          <Reset handleResetCenter={handleResetCenter} />
+        </MapControl>
+        <MapControl position={ControlPosition.BOTTOM_CENTER}>
+          <Slider drivers={drivers} onChange={onChange} />
         </MapControl>
       </ReactMap>
     </APIProvider>
