@@ -1,8 +1,10 @@
 import {
+  AdvancedMarker,
   APIProvider,
   ControlPosition,
   InfoWindow,
   MapControl,
+  Pin,
   Map as ReactMap,
 } from '@vis.gl/react-google-maps';
 import React, { useCallback, useState } from 'react';
@@ -15,6 +17,8 @@ import Center from '@components/Center';
 import Zoom from '@components/Zoom';
 import Reset from '@components/Reset';
 import Slider from '@components/Slider';
+
+const MAP_ID = process.env.REACT_APP_MAP_ID ?? 'test1234';
 
 const Map: React.FC<MapProps> = ({
   markers,
@@ -30,6 +34,7 @@ const Map: React.FC<MapProps> = ({
   handleResetCenter,
   drivers,
   onChange,
+  selectedCenter,
 }) => {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [selectedMarker, setSelectedMarker] =
@@ -43,29 +48,29 @@ const Map: React.FC<MapProps> = ({
     [],
   );
   const onMouseLeave = useCallback(() => setHoverId(null), []);
-
-  const Z_INDEX_HOVER = (markers?.length ?? 1) + 1;
-
   return (
     <APIProvider apiKey={apiKey}>
       <ReactMap
         className="map"
         center={center}
         zoom={zoom}
+        mapId={MAP_ID}
         gestureHandling={'greedy'}
         disableDefaultUI={true}
         clickableIcons={false}
         onZoomChanged={(ev) => onZoomChanged(ev.detail.zoom)}
         onCenterChanged={(ev) => onCenterChanged(ev.detail.center)}
       >
+        <AdvancedMarker position={selectedCenter}>
+          <Pin
+            background={'#22ccff'}
+            borderColor={'#1e89a1'}
+            glyphColor={'#0f677a'}
+          />
+        </AdvancedMarker>
         {markers && markers.length > 0 ? (
           <>
             {markers.map((marker: Markers) => {
-              let zIndex = 1;
-              if (hoverId === marker.driver_id) {
-                zIndex = Z_INDEX_HOVER;
-              }
-
               return (
                 <div key={marker.driver_id}>
                   <MarkerWithRef
@@ -73,7 +78,6 @@ const Map: React.FC<MapProps> = ({
                       lat: marker.location.latitude,
                       lng: marker.location.longitude,
                     }}
-                    zIndex={zIndex}
                     onMouseEnter={(markerRef: google.maps.Marker) =>
                       onMouseEnter(marker.driver_id, markerRef)
                     }

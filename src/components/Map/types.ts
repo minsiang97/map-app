@@ -15,6 +15,7 @@ export interface MapProps
   onCenterChanged: (value: Coordinates) => void;
   center: Coordinates;
   setSelectedPlace: (value: google.maps.places.PlaceResult | null) => void;
+  selectedCenter: Coordinates;
 }
 
 export interface Coordinates {

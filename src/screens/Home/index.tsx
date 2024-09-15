@@ -140,6 +140,7 @@ const Home: React.FC = () => {
             handleResetCenter={handleResetCenter}
             drivers={drivers}
             onChange={onChange}
+            selectedCenter={selectedCenter}
           />
         </Col>
       </Row>

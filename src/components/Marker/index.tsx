@@ -2,7 +2,7 @@ import { MarkerProps, Marker, useMarkerRef } from '@vis.gl/react-google-maps';
 
 const MarkerWithRef = (
   props: MarkerProps & {
-    onMouseEnter: (marker: google.maps.Marker) => void;
+    onMouseEnter?: (marker: google.maps.Marker) => void;
   },
 ) => {
   const { onMouseEnter, ...markerProps } = props;
@@ -12,7 +12,7 @@ const MarkerWithRef = (
     <Marker
       ref={markerRef}
       onMouseOver={() => {
-        if (marker) {
+        if (marker && onMouseEnter) {
           onMouseEnter(marker);
         }
       }}
