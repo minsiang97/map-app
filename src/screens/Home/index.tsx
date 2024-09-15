@@ -47,12 +47,12 @@ const Home: React.FC = () => {
         count: drivers,
       };
 
-      const response = await axios.get('/drivers', {
-        params,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/drivers`,
+        {
+          params,
         },
-      });
+      );
 
       if (response.status === 200) {
         const data = response.data;

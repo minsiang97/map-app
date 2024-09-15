@@ -2,7 +2,6 @@
   "name": "map-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://qa-interview-test.qa.splytech.dev/api",
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -17,7 +16,6 @@
     "axios": "^1.7.7",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
