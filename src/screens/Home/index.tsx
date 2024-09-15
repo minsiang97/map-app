@@ -9,9 +9,7 @@ import Map from '@components/Map';
 
 const maxZoom = 22;
 const minZoom = 0;
-const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? '';
-const NODE_ENV = process.env.REACT_APP_NODE_ENV;
 
 const Home: React.FC = () => {
   const defaultCoordinates: Coordinates = useMemo(() => {
