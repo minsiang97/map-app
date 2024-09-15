@@ -55,6 +55,9 @@ const Home: React.FC = () => {
           : `${CORS_URL}/${BASE_URL}/drivers`;
       const response = await axios.get(url, {
         params,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
       });
 
       if (response.status === 200) {
