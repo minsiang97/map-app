@@ -10,7 +10,6 @@ import Map from '@components/Map';
 const maxZoom = 22;
 const minZoom = 0;
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const CORS_URL = process.env.REACT_APP_CORS_URL;
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? '';
 const NODE_ENV = process.env.REACT_APP_NODE_ENV;
 
@@ -49,11 +48,8 @@ const Home: React.FC = () => {
         longitude: selectedCenter.lng,
         count: drivers,
       };
-      const url =
-        NODE_ENV !== 'local'
-          ? `${BASE_URL}/drivers`
-          : `${CORS_URL}/${BASE_URL}/drivers`;
-      const response = await axios.get(url, {
+
+      const response = await axios.get('/drivers', {
         params,
         headers: {
           'Access-Control-Allow-Origin': '*',
